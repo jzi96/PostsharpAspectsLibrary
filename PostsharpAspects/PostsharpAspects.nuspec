@@ -17,14 +17,14 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\SDC.Projects.CommonBasics.dll" target="lib\net40"/>
-    <file src="bin\Release\SDC.Projects.CommonBasics.xml" target="lib\net40"/>
-    <file src="bin\Release\SDC.Projects.CommonBasics.pdb" target="lib\net40"/>
-    <file src="bin\3.5\SDC.Projects.CommonBasics.dll" target="lib\net35"/>
-    <file src="bin\3.5\SDC.Projects.CommonBasics.xml" target="lib\net35"/>
-    <file src="bin\3.5\SDC.Projects.CommonBasics.pdb" target="lib\net35"/>
-    <file src="bin\3.5\SDC.Projects.CommonBasics.dll" target="lib\net30"/>
-    <file src="bin\3.5\SDC.Projects.CommonBasics.xml" target="lib\net30"/>
-    <file src="bin\3.5\SDC.Projects.CommonBasics.pdb" target="lib\net30"/>
+    <file src="bin\Release\Zieschang.Net.Projects.PostsharpAspects.dll" target="lib\net40"/>
+    <file src="bin\Release\Zieschang.Net.Projects.PostsharpAspects.xml" target="lib\net40"/>
+    <file src="bin\Release\Zieschang.Net.Projects.PostsharpAspects.pdb" target="lib\net40"/>
+    <file src="bin\3.5\Zieschang.Net.Projects.PostsharpAspects.dll" target="lib\net35"/>
+    <file src="bin\3.5\Zieschang.Net.Projects.PostsharpAspects.xml" target="lib\net35"/>
+    <file src="bin\3.5\Zieschang.Net.Projects.PostsharpAspects.pdb" target="lib\net35"/>
+    <file src="bin\3.5\Zieschang.Net.Projects.PostsharpAspects.dll" target="lib\net30"/>
+    <file src="bin\3.5\Zieschang.Net.Projects.PostsharpAspects.xml" target="lib\net30"/>
+    <file src="bin\3.5\Zieschang.Net.Projects.PostsharpAspects.pdb" target="lib\net30"/>
   </files>
 </package>

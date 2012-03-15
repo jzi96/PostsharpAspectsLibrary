@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Zieschang.Net.Projects.PostsharpAspects.xml</DocumentationFile>
     <PostSharpHintPath>lib\net20</PostSharpHintPath>
-    <Log4NetHintPath>lib\2.0</Log4NetHintPath>
+    <Log4NetHintPath>lib\net40-full</Log4NetHintPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,17 +35,17 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Zieschang.Net.Projects.PostsharpAspects.xml</DocumentationFile>
     <PostSharpHintPath>lib\net20</PostSharpHintPath>
-    <Log4NetHintPath>lib\2.0</Log4NetHintPath>
+    <Log4NetHintPath>lib\net40-full</Log4NetHintPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release3.5|AnyCPU'">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputPath>bin\3.5\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\SDC.Projects.CommonBasics.XML</DocumentationFile>
+    <DocumentationFile>bin\3.5\Zieschang.Net.Projects.PostsharpAspects.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\SDC.Projects.CommonBasics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Zieschang.Net.Projects.PostsharpAspects.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -55,15 +55,15 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <PostSharpHintPath>lib\net20</PostSharpHintPath>
-    <Log4NetHintPath>lib\2.0</Log4NetHintPath>
+    <Log4NetHintPath>lib\net20-full</Log4NetHintPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.0\$(Log4NetHintPath)\log4net.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <HintPath>..\packages\PostSharp.2.1.6.8\lib\net20\PostSharp.dll</HintPath>
+      <HintPath>..\packages\PostSharp.2.1.6.8\$(PostSharpHintPath)\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
