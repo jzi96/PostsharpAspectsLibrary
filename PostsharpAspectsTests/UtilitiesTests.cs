@@ -20,7 +20,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Tests
             var result=Utilities.GetContractNamespace(testType);
             //assert
             Console.WriteLine(result);
-            Assert.That(result, new EqualConstraint("contracts://sdc.de/Projects/CommonBasics/Tests/1.0/"));
+            Assert.That(result, new EqualConstraint("contracts://net.zieschang/Projects/PostsharpAspects/Tests/1.0/"));
         }
         [Test]
         public void GetContractNamespace_SmallWithVersion_ExpectLessModified()
