@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SmallPostSharpAspectsLibrary</id>
+    <version>$version$</version>
+    <authors>Jan Zieschang</authors>
+    <owners>Jan Zieschang</owners>
+    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Library of Aspects to be used in conjunction with PostSharp and log4net.</description>
+    <tags>PostSharp SDC Aspects</tags>
+    <dependencies>
+      <dependency id="PostSharp" version="2.1"/>
+      <dependency id="log4net" version="1.2" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\SDC.Projects.CommonBasics.dll" target="lib\net40"/>
+    <file src="bin\Release\SDC.Projects.CommonBasics.xml" target="lib\net40"/>
+    <file src="bin\Release\SDC.Projects.CommonBasics.pdb" target="lib\net40"/>
+    <file src="bin\3.5\SDC.Projects.CommonBasics.dll" target="lib\net35"/>
+    <file src="bin\3.5\SDC.Projects.CommonBasics.xml" target="lib\net35"/>
+    <file src="bin\3.5\SDC.Projects.CommonBasics.pdb" target="lib\net35"/>
+    <file src="bin\3.5\SDC.Projects.CommonBasics.dll" target="lib\net30"/>
+    <file src="bin\3.5\SDC.Projects.CommonBasics.xml" target="lib\net30"/>
+    <file src="bin\3.5\SDC.Projects.CommonBasics.pdb" target="lib\net30"/>
+  </files>
+</package>

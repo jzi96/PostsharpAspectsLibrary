@@ -1,0 +1,16 @@
+obj
+bin
+_ReSharper.*
+*.csproj.user
+*.resharper.user
+*.resharper
+*.suo
+*.cache
+~$*.DS_Store
+.DS_Store
+._*
+*.vs10x
+*.orig
+*.hg
+*.gpState
+.hgignore
