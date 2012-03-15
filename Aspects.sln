@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostsharpAspects", "PostsharpAspects\PostsharpAspects.csproj", "{4E3AE12A-9899-438C-8D37-A3A10F5A3400}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostsharpAspectsTests", "PostsharpAspectsTests\PostsharpAspectsTests.csproj", "{A3C782BE-21D2-411A-A296-7BA2517ADF69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AD46538-8968-4B64-907A-8F13C011F218}"
+	ProjectSection(SolutionItems) = preProject
+		CreateNuget.cmd = CreateNuget.cmd
+		PostsharpAspects\PostsharpAspects.nuspec = PostsharpAspects\PostsharpAspects.nuspec
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Release3.5|Any CPU = Release3.5|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E3AE12A-9899-438C-8D37-A3A10F5A3400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E3AE12A-9899-438C-8D37-A3A10F5A3400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E3AE12A-9899-438C-8D37-A3A10F5A3400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E3AE12A-9899-438C-8D37-A3A10F5A3400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E3AE12A-9899-438C-8D37-A3A10F5A3400}.Release3.5|Any CPU.ActiveCfg = Release3.5|Any CPU
+		{4E3AE12A-9899-438C-8D37-A3A10F5A3400}.Release3.5|Any CPU.Build.0 = Release3.5|Any CPU
+		{A3C782BE-21D2-411A-A296-7BA2517ADF69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3C782BE-21D2-411A-A296-7BA2517ADF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3C782BE-21D2-411A-A296-7BA2517ADF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3C782BE-21D2-411A-A296-7BA2517ADF69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3C782BE-21D2-411A-A296-7BA2517ADF69}.Release3.5|Any CPU.ActiveCfg = Release3.5|Any CPU
+		{A3C782BE-21D2-411A-A296-7BA2517ADF69}.Release3.5|Any CPU.Build.0 = Release3.5|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
