@@ -41,11 +41,11 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputPath>bin\3.5\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\SDC.Projects.CommonBasics.XML</DocumentationFile>
+    <DocumentationFile>bin\3.5\Zieschang.Net.Projects.PostsharpAspects.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\SDC.Projects.CommonBasics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Zieschang.Net.Projects.PostsharpAspects.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
