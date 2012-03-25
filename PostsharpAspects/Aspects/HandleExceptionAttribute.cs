@@ -44,7 +44,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             {
                 if (typeof(Exception).IsAssignableFrom(WrapExceptionType))
                 {
-                    Message.Write(SeverityType.Error,"PJZI001","WrapExceptionType must be of type exception!");
+                    Message.Write(SeverityType.Error, ValidationHelper.HandleExceptionWrapExceptionTypeError, ValidationMessages.ResourceManager.GetString(ValidationHelper.HandleExceptionWrapExceptionTypeError));
                     return false;
                 }
             }

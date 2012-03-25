@@ -53,13 +53,13 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         {
             if (string.IsNullOrEmpty(this._parameterName) && this._parameterIndex == -1)
             {
-                Message.Write(SeverityType.Error, "JZI001", "Missing paremter declaration! Set [ParameterName] or [ParameterIndex] property!");
+                Message.Write(SeverityType.Error, ValidationHelper.ParameterNullCheckParameterNotDefined,ValidationMessages.ResourceManager.GetString(ValidationHelper.ParameterNullCheckParameterNotDefined) );
                 return false;
             }
             var param = method.GetParameters();
             if (param.Length == 0)
             {
-                Message.Write(SeverityType.Error, "JZI004", "Method '{0}.{1}' does not have a parameter any parameter", method.DeclaringType.Name, method.Name);
+                Message.Write(SeverityType.Error, ValidationHelper.ParameterNullCheckParameterNotFound, ValidationMessages.ResourceManager.GetString(ValidationHelper.ParameterNullCheckParameterNotFound), method.DeclaringType.Name, method.Name);
                 return false;
             }
             //validate if match
@@ -68,7 +68,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             {
                 if (!(_parameterIndex < param.Length))
                 {
-                    Message.Write(SeverityType.Error, "JZI002", "Method '{0}.{1}' does not have a parameter with index {2}",  method.DeclaringType.Name,method.Name, _parameterIndex);
+                    Message.Write(SeverityType.Error, ValidationHelper.ParameterNullCheckParameterNotFoundIndex, ValidationMessages.ResourceManager.GetString(ValidationHelper.ParameterNullCheckParameterNotFoundIndex),  method.DeclaringType.Name,method.Name, _parameterIndex);
                     return false;
                 }
 
@@ -80,7 +80,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                 var findParam=param.FirstOrDefault(p => string.Compare(p.Name, _parameterName, StringComparison.OrdinalIgnoreCase)==0);
                 if (findParam == null)
                 {
-                    Message.Write(SeverityType.Error, "JZI003", "Method '{0}.{1}' does not have a parameter match name {2}", method.DeclaringType.Name, method.Name, _parameterName);
+                    Message.Write(SeverityType.Error, ValidationHelper.ParameterNullCheckParameterNotFoundName, ValidationHelper.ParameterNullCheckParameterNotFoundName, method.DeclaringType.Name, method.Name, _parameterName);
                     return false;
                 }
                 for (int index = 0; index < param.Length; index++)
@@ -97,7 +97,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             if (info.ParameterType.IsValueType)
             {
 
-                Message.Write(SeverityType.Error, "JZI004", "Method '{0}.{1}' parameter {2} is a value type, which cannot be null!",
+                Message.Write(SeverityType.Error,ValidationHelper.ParameterNullCheckParameterValueType, ValidationMessages.ResourceManager.GetString(ValidationHelper.ParameterNullCheckParameterValueType),
                               method.DeclaringType.Name, method.Name, _parameterName);
                 return false;
             }
