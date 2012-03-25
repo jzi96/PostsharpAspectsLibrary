@@ -10,11 +10,17 @@ using System.Threading;
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 {
     [Serializable]
-    public sealed class RatePerformanceCounterAspectAttribute : PerformanceCounterBaseAspectAttribute
+    public sealed class RatePerformanceCounterAttribute : PerformanceCounterBaseAttribute
     {
-        public RatePerformanceCounterAspectAttribute()
+        public RatePerformanceCounterAttribute()
         {
             _counterType = PerformanceCounterType.RateOfCountsPerSecond32;
+        }
+        public RatePerformanceCounterAttribute(string categoryName, string counterName)
+        {
+            _counterType = PerformanceCounterType.RateOfCountsPerSecond32;
+            CategoryName = categoryName;
+            CounterName = counterName;
         }
         public override void OnInvoke(MethodInterceptionArgs args)
         {

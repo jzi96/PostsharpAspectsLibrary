@@ -92,8 +92,8 @@
     <Compile Include="Aspects\NotCacheableAttribute.cs" />
     <Compile Include="Aspects\NotifyPropertyChangedAttribute.cs" />
     <Compile Include="Aspects\ParameterNotNullCheck.cs" />
-    <Compile Include="Aspects\PerformanceCounterBaseAspectAttribute.cs" />
-    <Compile Include="Aspects\RatePerformanceCounteraspectAttribute.cs" />
+    <Compile Include="Aspects\PerformanceCounterBaseAttribute.cs" />
+    <Compile Include="Aspects\RatePerformanceCounterAttribute.cs" />
     <Compile Include="Aspects\RetryOnErrorAttribute.cs" />
     <Compile Include="Aspects\ThreadingAttribute.cs" />
     <Compile Include="Aspects\TimeProfileAttribute.cs" />

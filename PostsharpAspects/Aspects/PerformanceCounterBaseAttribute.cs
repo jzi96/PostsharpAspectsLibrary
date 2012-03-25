@@ -21,7 +21,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, StandardRoles.Persistence)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, StandardRoles.EventBroker)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, StandardRoles.Tracing)]
-    public abstract class PerformanceCounterBaseAspectAttribute : MethodInterceptionAspect
+    public abstract class PerformanceCounterBaseAttribute : MethodInterceptionAspect
     {
         protected const string OverallInstance = "_Overall";
 

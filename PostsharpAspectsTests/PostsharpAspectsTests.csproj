@@ -89,6 +89,7 @@
     <Compile Include="InternalFieldFinderTests.cs" />
     <Compile Include="ParameterNotNullCheckTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RatePerformanceCounterTests.cs" />
     <Compile Include="SynchronizeAttributeTests.cs" />
     <Compile Include="TimeProfileTests.cs" />
     <Compile Include="UtilitiesTests.cs" />
