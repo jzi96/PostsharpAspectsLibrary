@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aspects\AddDataContractAttribute.cs" />
+    <Compile Include="Aspects\ValidationHelper.cs" />
     <Compile Include="Aspects\CachingAttribute.cs" />
     <Compile Include="Aspects\Formatter.cs" />
     <Compile Include="Aspects\HandleExceptionAttribute.cs" />
@@ -91,9 +92,16 @@
     <Compile Include="Aspects\NotCacheableAttribute.cs" />
     <Compile Include="Aspects\NotifyPropertyChangedAttribute.cs" />
     <Compile Include="Aspects\ParameterNotNullCheck.cs" />
+    <Compile Include="Aspects\PerformanceCounterBaseAspectAttribute.cs" />
+    <Compile Include="Aspects\RatePerformanceCounteraspectAttribute.cs" />
     <Compile Include="Aspects\RetryOnErrorAttribute.cs" />
     <Compile Include="Aspects\ThreadingAttribute.cs" />
     <Compile Include="Aspects\TimeProfileAttribute.cs" />
+    <Compile Include="Aspects\ValidationMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidationMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="LogHelper.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Aspects\ValidationMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
