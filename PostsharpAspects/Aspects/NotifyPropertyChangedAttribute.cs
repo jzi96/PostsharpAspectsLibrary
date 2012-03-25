@@ -14,11 +14,10 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [ProvideAspectRole(StandardRoles.DataBinding)]
     public sealed class NotifyPropertyChangedAttribute : InstanceLevelAspect, INotifyPropertyChanged
     {
-       
-        [ImportMember( "OnPropertyChanged", IsRequired = false, Order = ImportMemberOrder.AfterIntroductions)] 
-        public Action<string> OnPropertyChangedMethod;
+        [ImportMember("OnPropertyChanged", IsRequired = false, Order = ImportMemberOrder.AfterIntroductions)]
+        public readonly Action<string> OnPropertyChangedMethod;
 
-        [IntroduceMember( Visibility = Visibility.Family, IsVirtual = true, OverrideAction = MemberOverrideAction.Ignore )]
+        [IntroduceMember(Visibility = Visibility.Family, IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrIgnore)]
         public void OnPropertyChanged( string propertyName )
         {
             if ( PropertyChanged != null )
@@ -27,7 +26,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             }
         }
 
-        [IntroduceMember( OverrideAction = MemberOverrideAction.Ignore )]
+        [IntroduceMember( OverrideAction = MemberOverrideAction.OverrideOrIgnore )]
         public event PropertyChangedEventHandler PropertyChanged;
 
         [OnLocationSetValueAdvice, MulticastPointcut( Targets = MulticastTargets.Property, Attributes = MulticastAttributes.Instance | MulticastAttributes.NonAbstract)]

@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aspects\AddDataContractAttribute.cs" />
+    <Compile Include="Aspects\NotifyPropertyChangingAttribute.cs" />
     <Compile Include="Aspects\ValidationHelper.cs" />
     <Compile Include="Aspects\CachingAttribute.cs" />
     <Compile Include="Aspects\Formatter.cs" />

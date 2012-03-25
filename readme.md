@@ -12,7 +12,8 @@ Included Aspects
  * ParameterNotNullCheck - Check if the given parameter is null, if null throws.
  * RetryOnError - Will retry the method execution, if there was an exception.
  * HandleException - Handles an exception occur in the current method. (Allows supression)
- * various PerformanceCounter
+ * various PerformanceCounter - 
+ * PropertyChanging - change of property value notification
  * NotifyPropertyChanged (copy from PostSharp samples) - Implements the NotifyPropertyChanged for every property.
  * Threading (copy from PostSharp samples) 
  * Caching (copy from PostSharp samples)
