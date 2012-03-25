@@ -12,6 +12,7 @@ Included Aspects
  * ParameterNotNullCheck
  * RetryOnError
  * HandleException
+ * various PerformanceCounter
  * NotifyPropertyChanged (copy from PostSharp samples)
  * Threading (copy from PostSharp samples)
  * Caching (copy from PostSharp samples)
