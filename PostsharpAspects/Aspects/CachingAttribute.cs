@@ -9,6 +9,9 @@ using PostSharp.Aspects.Dependencies;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 {
+    /// <summary>
+    /// </summary>
+    /// <remarks><para>PostSharp Sample copy</para></remarks>
     [Serializable]
     [ProvideAspectRole(StandardRoles.Caching)]
     public class CachingAttribute : OnMethodBoundaryAspect

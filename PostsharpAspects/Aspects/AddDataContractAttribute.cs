@@ -11,8 +11,13 @@ using PostSharp.Reflection;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 {
-
+    /// <summary>
+    /// </summary>
+    /// <remarks><para>PostSharp Sample copy</para></remarks>
     public sealed class NoDataMemberAttribute : Attribute { }
+    /// <summary>
+    /// </summary>
+    /// <remarks><para>PostSharp Sample copy</para></remarks>
     [Serializable]
     [MulticastAttributeUsage(MulticastTargets.Class, AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
     public sealed class AddDataContractAttribute : TypeLevelAspect, IAspectProvider

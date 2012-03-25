@@ -7,7 +7,7 @@ using NUnit.Framework.Constraints;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Tests
 {
-    [TestFixture]
+    [TestFixture][Explicit]
     public class UtilitiesTests
     {
         [Test]
