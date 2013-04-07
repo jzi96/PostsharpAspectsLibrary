@@ -6,10 +6,13 @@ using System.Reflection;
 using System.Security.Permissions;
 using System.Text;
 
-namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
+namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
 {
+    /// <summary>
+    /// Helper class for getting field a specific field.
+    /// </summary>
     [ReflectionPermission(SecurityAction.Demand, Flags = ReflectionPermissionFlag.MemberAccess, RestrictedMemberAccess = true)]
-    public sealed class InternalFieldFinder
+    internal sealed class InternalFieldFinder
     {
         private static readonly InternalFieldFinder _instance = new InternalFieldFinder();
         private readonly Dictionary<string, object> _resultCache = new Dictionary<string, object>();
@@ -47,7 +50,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                         for (int i = 0; i < fields.Length; i++)
                         {
                             f = fields[i];
-                            if (f.FieldType.IsAssignableFrom(typeof(T)))
+                            if (typeof(T).IsAssignableFrom(f.FieldType))
                             {
                                 //we have found the right field
                                 _fieldcache.Add(typeName, f);
@@ -57,7 +60,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                         }
                     }
                     if (f != null)
-                        result = TryGetFieldValue(typeName, f, instance);
+                         result = TryGetFieldValue(typeName, f, instance);
                 }
             }
             else
@@ -82,6 +85,10 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             {
                 if (!_resultCache.TryGetValue(typeName, out result))
                 {
+                    if (fieldInfo.DeclaringType.IsGenericTypeDefinition)
+                    {
+                        return null;
+                    }
                     result = fieldInfo.GetValue(null);
                     if (result != null)
                         _resultCache.Add(typeName, result);

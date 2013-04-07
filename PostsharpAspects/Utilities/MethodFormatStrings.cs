@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
+namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
 {
     /// <summary>
     /// Set of 3 formatting string that, at runtime, represent a method and its

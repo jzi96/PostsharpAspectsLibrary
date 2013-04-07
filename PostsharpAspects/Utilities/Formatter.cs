@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
+namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
 {
     /// <summary>
     /// Provides formatting string representing types, methods and fields. The
@@ -19,7 +19,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         /// where each generic type argument is represented as a
         /// formatting argument (e.g. <c>Dictionary&lt;{0},P1}&gt;</c>.
         /// </returns>
-        public static string GettypeFormatString(Type type)
+        public static string GetTypeFormatString(Type type)
         {
             var stringBuilder = new StringBuilder();
 
@@ -52,7 +52,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 
             var stringBuilder = new StringBuilder();
 
-            string typeFormat = GettypeFormatString(method.DeclaringType);
+            string typeFormat = GetTypeFormatString(method.DeclaringType);
             bool typeIsGeneric = method.DeclaringType.IsGenericTypeDefinition;
 
             // Build the format string for the method name.

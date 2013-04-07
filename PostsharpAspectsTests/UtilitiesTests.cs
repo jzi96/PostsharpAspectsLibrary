@@ -17,7 +17,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Tests
             var testType = typeof (UtilitiesTests);
 
             //act
-            var result=Utilities.GetContractNamespace(testType);
+            var result = Zieschang.Net.Projects.PostsharpAspects.Utilities.Utilities.GetContractNamespace(testType);
             //assert
             Console.WriteLine(result);
             Assert.That(result, new EqualConstraint("contracts://net.zieschang/Projects/PostsharpAspects/Tests/1.0/"));
@@ -29,7 +29,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Tests
             var testType = typeof (de.Small.ShortNamespaceClass);
 
             //act
-            var result=Utilities.GetContractNamespace(testType);
+            var result = Zieschang.Net.Projects.PostsharpAspects.Utilities.Utilities.GetContractNamespace(testType);
             //assert
             Console.WriteLine(result);
             Assert.That(result, new EqualConstraint("de/Small/1.0/"));

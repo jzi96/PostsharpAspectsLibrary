@@ -5,6 +5,7 @@ using System.Text;
 using Zieschang.Net.Projects.PostsharpAspects.Aspects;
 using log4net.Appender;
 using NUnit.Framework;
+using Zieschang.Net.Projects.PostsharpAspects.Utilities;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Tests
 {

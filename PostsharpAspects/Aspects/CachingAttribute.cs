@@ -6,6 +6,7 @@ using System.Web.Caching;
 using PostSharp.Aspects;
 using PostSharp.Extensibility;
 using PostSharp.Aspects.Dependencies;
+using Zieschang.Net.Projects.PostsharpAspects.Utilities;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 {

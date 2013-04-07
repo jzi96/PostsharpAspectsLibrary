@@ -9,6 +9,7 @@ using PostSharp.Aspects.Configuration;
 using PostSharp.Extensibility;
 using PostSharp.Reflection;
 
+
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 {
     /// <summary>
@@ -31,7 +32,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             if (props.Length == 0)
                 yield return null;
             var objectConstruction = new ObjectConstruction(typeof(DataContractAttribute));
-            var ns = Utilities.GetContractNamespace(t);
+            var ns =Zieschang.Net.Projects.PostsharpAspects.Utilities.Utilities.GetContractNamespace(t);
             objectConstruction.NamedArguments.Add("Namespace", ns);
             var introduceDataContractAttribute =
                 new CustomAttributeIntroductionAspect(objectConstruction);

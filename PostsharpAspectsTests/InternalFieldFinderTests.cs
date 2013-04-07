@@ -6,6 +6,7 @@ using System.Text;
 using Zieschang.Net.Projects.PostsharpAspects.Aspects;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
+using Zieschang.Net.Projects.PostsharpAspects.Utilities;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Tests
 {
