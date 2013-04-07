@@ -19,6 +19,13 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.Caching)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.TransactionHandling)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.Tracing)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.Validation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.PerformanceInstrumentation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.Tracing)]
+#if(RELEASE)
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
+#endif
     public sealed class BackgroundThreadingAttribute : MethodInterceptionAspect
     {
         public override void OnInvoke(MethodInterceptionArgs args)
@@ -37,7 +44,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.TransactionHandling)]
     public sealed class SyncronizeWindowThreadAttribute : MethodInterceptionAspect
     {
-        private delegate void InvokeDelegate();
+        //private delegate void InvokeDelegate();
         public override void OnInvoke(MethodInterceptionArgs args)
         {
             System.Windows.Forms.Control main = (System.Windows.Forms.Control)args.Instance;
@@ -56,7 +63,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.TransactionHandling)]
     public sealed class SyncronizeWpfThreadAttribute : MethodInterceptionAspect
     {
-        private delegate void InvokeDelegate();
+        //private delegate void InvokeDelegate();
         public override void OnInvoke(MethodInterceptionArgs args)
         {
             var dispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;

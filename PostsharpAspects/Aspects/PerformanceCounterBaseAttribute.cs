@@ -9,6 +9,9 @@ using System.Threading;
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 {
+    /// <summary>
+    /// Attribute for implementing Performance Coutner and running them.
+    /// </summary>
     [Serializable]
     [ProvideAspectRole(StandardRoles.PerformanceInstrumentation)]
     [AttributeUsageAttribute(AttributeTargets.Method | AttributeTargets.Constructor,
@@ -21,24 +24,60 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, StandardRoles.Persistence)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, StandardRoles.EventBroker)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, StandardRoles.Tracing)]
+    [PostSharp.Aspects.Dependencies.ProvideAspectRole(PostSharp.Aspects.Dependencies.StandardRoles.PerformanceInstrumentation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.Validation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.PerformanceInstrumentation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.Tracing)]
+    [StringIntern()]
+#if(!DEBUG)
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
+#endif
     public abstract class PerformanceCounterBaseAttribute : MethodInterceptionAspect
     {
+        /// <summary>
+        /// a special instance performance counter
+        /// to increment always (a summary of all instances)
+        /// </summary>
         protected const string OverallInstance = "_Overall";
+        private readonly string _categoryName;
+        private readonly string _counterName;
 
         private static readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
 
         private static readonly IDictionary<string, IDictionary<string, PerformanceCounter>>
-            categoryDict;
+        categoryDict = new Dictionary<string, IDictionary<string, PerformanceCounter>>();
+        private static readonly IList<string> _disabledCounters = new List<string>();
 
         private static readonly object Sync = new object();
-        private bool _runtimeInitError;
-        protected PerformanceCounterType _counterType;
+        /// <summary>
+        /// Type of the Performance counter
+        /// </summary>
+        protected readonly PerformanceCounterType _counterType;
+
+        /// <summary>
+        /// properties for Performance Counter instance
+        /// </summary>
+        /// <param name="categoryName"></param>
+        /// <param name="counterName"></param>
+        /// <param name="counterType"></param>
+        public PerformanceCounterBaseAttribute(string categoryName, string counterName, PerformanceCounterType counterType)
+        {
+            _counterType = counterType;
+            _counterName = string.Intern(counterName);
+            _categoryName = string.Intern(categoryName);
+        }
+        /// <summary>
+        /// Returns the performance counter matching the
+        /// specification of <see cref="CategoryName"/>
+        /// and <see cref="CounterName"/>
+        /// </summary>
+        /// <returns>If not found returns <see langword="null"/>;otherwise the counter instance</returns>
         protected PerformanceCounter GetCounter()
         {
-            if (_runtimeInitError)
-                return null;
             return GetCounter(CategoryName, CounterName, _counterType);
         }
+
         /// <summary>
         /// Gets the counter.
         /// </summary>
@@ -56,6 +95,8 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             try
             {
                 PerformanceCounter pc = this.EnsureWithCategory(category, counterName, type, false);
+                if (pc == null)
+                    return null;
                 pc.InstanceName = AppDomain.CurrentDomain.FriendlyName;
                 return pc;
             }
@@ -113,7 +154,13 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                                                         PerformanceCounterType type,
                                                         IDictionary<string, PerformanceCounter> perf)
         {
-            PerformanceCounter counter;
+            PerformanceCounter counter = null;
+            string counterkey = category + "||" + counterName;
+            if (_disabledCounters.Contains(counterkey))
+            {
+                Trace.WriteLine(string.Format("The counter {0} in category {1} could not be accessed and therefore disabled", counterName, category), typeof(PerformanceCounterBaseAttribute).FullName);
+                return null;
+            }
             if (perf != null
                && perf.ContainsKey(counterName))
                 counter = perf[counterName];
@@ -162,18 +209,20 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                             perf.Clear();
                             perf = null;
                         }
-                        PerformanceCounterCategory.Delete(category);
+                        //PerformanceCounterCategory.Delete(category);
                     }
-                    CheckAndAddCounter(creation, counterKeys, counterName, type);
-                    if (type == PerformanceCounterType.AverageTimer32)
-                        creation.Add(new CounterCreationData(counterName + "Base",
-                                                             "",
-                                                             PerformanceCounterType.AverageBase));
-                    PerformanceCounterCategory.Create(category,
-                                                      "",
-                                                      PerformanceCounterCategoryType.MultiInstance,
-                                                      creation);
-
+                    else
+                    {
+                        CheckAndAddCounter(creation, counterKeys, counterName, type);
+                        if (type == PerformanceCounterType.AverageTimer32)
+                            creation.Add(new CounterCreationData(counterName + "Base",
+                                                                 string.Empty,
+                                                                 PerformanceCounterType.AverageBase));
+                        PerformanceCounterCategory.Create(category,
+                                                          string.Empty,
+                                                          PerformanceCounterCategoryType.MultiInstance,
+                                                          creation);
+                    }
                     counterDict = new Dictionary<string, PerformanceCounter>(creation.Count);
                     foreach (CounterCreationData ccd in creation)
                     {
@@ -183,12 +232,35 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                                                          false);
                         counterDict.Add(ccd.CounterName, counter);
                     }
-                    counter = counterDict[counterName];
-                    perf = counterDict;
-                    if (categoryDict.ContainsKey(category))
-                        categoryDict[category] = counterDict;
+                    if (counterDict.TryGetValue(counterName, out counter))
+                    {
+                        counter = counterDict[counterName];
+                        perf = counterDict;
+                        if (categoryDict.ContainsKey(category))
+                            categoryDict[category] = counterDict;
+                        else
+                            categoryDict.Add(category, counterDict);
+                    }
                     else
-                        categoryDict.Add(category, counterDict);
+                    {
+                        Trace.WriteLine("Counter does not exists in group. Counter will be disabled", typeof(PerformanceCounterBaseAttribute).FullName);
+                        lock (_disabledCounters)
+                        {
+                            if (!_disabledCounters.Contains(counterkey))
+                                _disabledCounters.Add(counterkey);
+                        }
+                        counter = null;
+                    }
+                }
+                catch (System.Security.SecurityException sex)
+                {
+                    Trace.WriteLine("Failed to create counter -> counter will be deactivated!" + sex, typeof(PerformanceCounterBaseAttribute).FullName);
+                    lock (_disabledCounters)
+                    {
+                        if (!_disabledCounters.Contains(counterkey))
+                            _disabledCounters.Add(counterkey);
+                    }
+                    counter = null;
                 }
                 finally
                 {
@@ -212,7 +284,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             if (!counterKeys.Contains(name))
             {
                 counterKeys.Add(name);
-                creation.Add(new CounterCreationData(name, "", type));
+                creation.Add(new CounterCreationData(name, string.Empty, type));
             }
         }
         /// <summary>
@@ -230,10 +302,31 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                 CheckAndAddCounter(creation, counterKeys, c.CounterName, c.CounterType);
             }
         }
-        public string CategoryName { get; set; }
-        public string CounterName { get; set; }
+        /// <summary>
+        /// Category name for the counter (group)
+        /// </summary>
+        public string CategoryName
+        {
+            get
+            {
+                return _categoryName;
+            }
+        }
+        /// <summary>
+        /// Name of the perfomance counter 
+        /// </summary>
+        public string CounterName
+        {
+            get
+            {
+                return _counterName;
+            }
+        }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
         public override void RuntimeInitialize(System.Reflection.MethodBase method)
         {
             //Try loade the counter
@@ -244,16 +337,20 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             //when fail, disable for comple processing
             base.RuntimeInitialize(method);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
         public override bool CompileTimeValidate(System.Reflection.MethodBase method)
         {
             if (string.IsNullOrEmpty(CategoryName))
             {
-                PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType.Error, ValidationHelper.PerformanceCounterAttributeCategoryNameMissing, ValidationMessages.ResourceManager.GetString(ValidationHelper.PerformanceCounterAttributeCategoryNameMissing));
+                PostSharp.Extensibility.Message.Write(method, PostSharp.Extensibility.SeverityType.Error, ValidationHelper.PerformanceCounterAttributeCategoryNameMissing, ValidationMessages.ResourceManager.GetString(ValidationHelper.PerformanceCounterAttributeCategoryNameMissing));
             }
             if (string.IsNullOrEmpty(CategoryName))
             {
-                PostSharp.Extensibility.Message.Write(PostSharp.Extensibility.SeverityType.Error, ValidationHelper.PerformanceCounterAttributeCounterNameMissing, ValidationMessages.ResourceManager.GetString(ValidationHelper.PerformanceCounterAttributeCounterNameMissing));
+                PostSharp.Extensibility.Message.Write(method, PostSharp.Extensibility.SeverityType.Error, ValidationHelper.PerformanceCounterAttributeCounterNameMissing, ValidationMessages.ResourceManager.GetString(ValidationHelper.PerformanceCounterAttributeCounterNameMissing));
             }
             return base.CompileTimeValidate(method);
         }

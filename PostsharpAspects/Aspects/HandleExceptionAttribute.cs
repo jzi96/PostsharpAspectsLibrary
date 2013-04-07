@@ -18,6 +18,10 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.Caching)]
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, StandardRoles.Tracing)]
     [ProvideAspectRole(StandardRoles.ExceptionHandling)]
+#if(RELEASE)
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
+#endif
     public sealed class HandleExceptionAttribute : PostSharp.Aspects.OnExceptionAspect
     {
         private bool _suppressException;
@@ -45,7 +49,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             {
                 if (typeof(Exception).IsAssignableFrom(WrapExceptionType))
                 {
-                    Message.Write(SeverityType.Error, ValidationHelper.HandleExceptionWrapExceptionTypeError, ValidationMessages.ResourceManager.GetString(ValidationHelper.HandleExceptionWrapExceptionTypeError));
+                    Message.Write(method, SeverityType.Error, ValidationHelper.HandleExceptionWrapExceptionTypeError, ValidationMessages.ResourceManager.GetString(ValidationHelper.HandleExceptionWrapExceptionTypeError));
                     return false;
                 }
             }

@@ -8,6 +8,7 @@ using PostSharp.Aspects;
 using PostSharp.Aspects.Configuration;
 using PostSharp.Extensibility;
 using PostSharp.Reflection;
+using PostSharp.Aspects.Dependencies;
 
 
 namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
@@ -15,16 +16,30 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     /// <summary>
     /// </summary>
     /// <remarks><para>PostSharp Sample copy</para></remarks>
+    [AttributeUsageAttribute(AttributeTargets.Field | AttributeTargets.Property,
+         AllowMultiple = true, Inherited = true)]
+    [AspectRoleDependency(AspectDependencyAction.Conflict, "Serialization")]
     public sealed class NoDataMemberAttribute : Attribute { }
     /// <summary>
     /// </summary>
     /// <remarks><para>PostSharp Sample copy</para></remarks>
     [Serializable]
+    [ProvideAspectRole("Serialization")]
     [MulticastAttributeUsage(MulticastTargets.Class, AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
+    [AttributeUsageAttribute(AttributeTargets.Field | AttributeTargets.Property|AttributeTargets.Class|AttributeTargets.Assembly,
+         AllowMultiple = true, Inherited = true)]
+#if(RELEASE)
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
+#endif
     public sealed class AddDataContractAttribute : TypeLevelAspect, IAspectProvider
     {
         #region IAspectProvider Members
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetElement"></param>
+        /// <returns></returns>
         public IEnumerable<AspectInstance> ProvideAspects(object targetElement)
         {
             var t = (Type)targetElement;

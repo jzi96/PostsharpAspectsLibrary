@@ -18,11 +18,24 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         public string Name { get; set; }
         public int Age { get; set; }
     }
-
+    /// <summary>
+    /// Apply <see cref="INotifyPropertyChanging"/> implementation to the class
+    /// </summary>
     [Serializable]
     [IntroduceInterface(typeof(INotifyPropertyChanging), OverrideAction = InterfaceOverrideAction.Ignore)]
     [MulticastAttributeUsage(MulticastTargets.Class, Inheritance = MulticastInheritance.Strict)]
     [ProvideAspectRole(StandardRoles.DataBinding)]
+    [AttributeUsageAttribute(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Assembly,
+         AllowMultiple = true, Inherited = true)]
+    [PostSharp.Aspects.Dependencies.ProvideAspectRole(PostSharp.Aspects.Dependencies.StandardRoles.DataBinding)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.Validation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.PerformanceInstrumentation)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.Tracing)]
+    [AspectRoleDependency(AspectDependencyAction.Commute, PostSharp.Aspects.Dependencies.StandardRoles.DataBinding)]
+#if(RELEASE)
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
+#endif
     public sealed class NotifyPropertyChangingAttribute : InstanceLevelAspect, INotifyPropertyChanging
     {
 
@@ -31,9 +44,10 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         [IntroduceMember(Visibility = Visibility.Family, IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrIgnore)]
         public void OnPropertyChanging(string propertyName)
         {
-            if (PropertyChanging != null)
+            PropertyChangingEventHandler pc = PropertyChanging;
+            if (pc != null)
             {
-                PropertyChanging(Instance, new PropertyChangingEventArgs(propertyName));
+                pc(Instance, new PropertyChangingEventArgs(propertyName));
             }
         }
         [IntroduceMember(OverrideAction = MemberOverrideAction.OverrideOrIgnore)]

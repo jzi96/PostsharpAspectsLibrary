@@ -15,6 +15,12 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
     /// <remarks><para>PostSharp Sample copy</para></remarks>
     [Serializable]
     [ProvideAspectRole(StandardRoles.Caching)]
+    [AttributeUsageAttribute(AttributeTargets.Property | AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly,
+         AllowMultiple = true, Inherited = true)]
+#if(RELEASE)
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
+#endif
     public class CachingAttribute : OnMethodBoundaryAspect
     {
         // Some formatting strings to compose the cache key.
@@ -25,6 +31,20 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         private readonly DateTime _absolutExpiration;
         private readonly TimeSpan _slidingExpiration;
 
+        public TimeSpan SlidingExpiration
+        {
+            get
+            {
+                return _slidingExpiration;
+            }
+        }
+        public DateTime AbsolutExpiration
+        {
+            get
+            {
+                return _absolutExpiration;
+            }
+        }
         public CachingAttribute()
             : this(System.Web.Caching.Cache.NoAbsoluteExpiration, System.Web.Caching.Cache.NoSlidingExpiration)
         { }
@@ -47,7 +67,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             // Don't apply to constructors.
             if (method is ConstructorInfo)
             {
-                Message.Write(SeverityType.Error, "CX0001", "Cannot cache constructors.");
+                Message.Write(method, SeverityType.Error, "CX0001", "Cannot cache constructors.");
                 return false;
             }
 
@@ -56,7 +76,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             // Don't apply to void methods.
             if (methodInfo.ReturnType.Name == "Void")
             {
-                Message.Write(SeverityType.Error, "CX0002", "Cannot cache void methods.");
+                Message.Write(method, SeverityType.Error, "CX0002", "Cannot cache void methods.");
                 return false;
             }
 
@@ -64,7 +84,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
             ParameterInfo[] parameters = method.GetParameters();
             if (parameters.Any(t => t.IsOut))
             {
-                Message.Write(SeverityType.Error, "CX0003", "Cannot cache methods with return values.");
+                Message.Write(method, SeverityType.Error, "CX0003", "Cannot cache methods with return values.");
                 return false;
             }
 
