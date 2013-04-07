@@ -65,6 +65,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
 
 
 
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static string GetStringValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -73,6 +76,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToString(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static string GetStringValue(this object value, string defaultValue)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -81,6 +87,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToString(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static int GetIntegerValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -89,6 +98,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToInt32(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static long GetLongValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -97,6 +109,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToInt64(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static long? GetNullableLongValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -105,12 +120,18 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToInt64(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static Nullable<DateTime> GetDateTimeAsUtcValue(this object value)
         {
             var tmp = GetDateTimeAsUtcValue(value, TimeZoneInfo.Local).Value;
             tmp = tmp.AssumeIsLocalTime();
             return tmp;
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static Nullable<DateTime> GetDateTimeAsUtcValue(this object value, TimeZoneInfo tz)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -130,6 +151,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             return dt;
 
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static Nullable<DateTime> GetDateTimeValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -139,6 +163,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             DateTime dt = Convert.ToDateTime(value);
             return dt;
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static double GetDoubleValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -147,6 +174,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToDouble(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static decimal GetDecimalValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -155,6 +185,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToDecimal(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static decimal? GetNullableDecimalValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -163,6 +196,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToDecimal(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
         public static bool GetBooleanValue(this object value)
         {
             if ((value == null || Convert.IsDBNull(value)))
@@ -171,6 +207,11 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             }
             return Convert.ToBoolean(value);
         }
+        /// <summary>
+        /// Helper for access of DB fields
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static short GetDBDataValue(this bool value)
         {
             return (short)(value ? 1 : 0);
@@ -186,6 +227,12 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             DateTime current = DateTime.Now;
             return (current.Year == cmpDate.Year && current.Month == cmpDate.Month && current.Day == cmpDate.Day);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmpDate"></param>
+        /// <param name="tzInfo"></param>
+        /// <returns></returns>
         public static DateTime GetDateLocalForSpecificDateTimeZone(this DateTime cmpDate, TimeZoneInfo tzInfo)
         {
             DateTime tmp = cmpDate.AssumeIsLocalTime();
@@ -223,13 +270,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             tmp = tmp.Add(diff);
             return tmp;
         }
-        public static DateTime GetLastWeekdayOfMonth(this DateTime date, DayOfWeek day)
-        {
-            DateTime lastDayOfMonth = new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
-            int wantedDay = Convert.ToInt32(day);
-            int lastDay = Convert.ToInt32(lastDayOfMonth.DayOfWeek);
-            return lastDayOfMonth.AddDays(lastDay >= wantedDay ? wantedDay - lastDay : wantedDay - lastDay - 7);
-        }
+
         /// <summary>
         /// Check if both dates are at the same Day
         /// </summary>
@@ -272,7 +313,12 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
             return value >= lowerLimit && value <= upperLimit;
         }
 
-
+        /// <summary>
+        /// Return the value of the nullable type or <see langword="null"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static object GetNullableTypeValue<T>(this Nullable<T> value) where T : struct
         {
             if (value.HasValue)
@@ -355,11 +401,6 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Utilities
                 tb.Rows.Add(row);
             }
             return tb;
-        }
-        [Obsolete("Just for beeing reverse compatibile. Use SerializationUtilities.ResolveSerializer instead.")]
-        public static XmlSerializer ResolveSerializer(Type objGetType)
-        {
-            return SerializationUtilities.ResolveSerializer(objGetType);
         }
     }
 
