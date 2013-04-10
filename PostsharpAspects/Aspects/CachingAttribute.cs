@@ -27,7 +27,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         private MethodFormatStrings _formatStrings;
 
         // A dictionary that serves as a trivial cache implementation.
-        private static readonly System.Web.Caching.Cache Cache = new System.Web.Caching.Cache();
+        private static readonly System.Web.Caching.Cache Cache = System.Web.HttpRuntime.Cache;
         private readonly DateTime _absolutExpiration;
         private readonly TimeSpan _slidingExpiration;
 
@@ -54,6 +54,9 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
 
         public CachingAttribute(TimeSpan slidingExpiration)
             : this(System.Web.Caching.Cache.NoAbsoluteExpiration, slidingExpiration)
+        { }
+        public CachingAttribute(int secondsForSliding)
+            : this(System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, secondsForSliding))
         { }
 
         private CachingAttribute(DateTime absolutExpiration, TimeSpan slidingExpiration)
@@ -128,6 +131,11 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
                     }
                 }
             }
+            else
+            {
+                eventArgs.ReturnValue = value;
+                eventArgs.FlowBehavior = FlowBehavior.Return;
+            }
         }
 
         // Executed at runtime, after the method.
@@ -135,7 +143,7 @@ namespace Zieschang.Net.Projects.PostsharpAspects.Aspects
         {
             // Retrieve the key that has been computed in OnEntry.
             var key = (string)eventArgs.MethodExecutionTag;
-
+            if (string.IsNullOrEmpty(key)) return;
             // Put the return value in the cache.
             lock (Cache)
             {
